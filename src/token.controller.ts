@@ -52,7 +52,8 @@ export class TokenController {
 
   @MessagePattern('token_decode')
   public async decodeToken(data: { token: string }): Promise<ITokenDataResponse> {
-    const tokenData = await this.tokenService.decodeToken(data.token)
+    const newToken = data.token.replace('Bearer ', '')
+    const tokenData = await this.tokenService.decodeToken(newToken)
     return {
       status: tokenData ? HttpStatus.OK : HttpStatus.UNAUTHORIZED,
       message: tokenData ? 'token_decode_success' : 'token_decode_unauthorized',
